@@ -1,43 +1,35 @@
-kubectl get pods -A
-
-kubectl exec -it testpod -- sh -c "echo 'test' > /etc/testfile"
-
-kubectl run testpod --image=alpine --command -- sleep 3600
-
-kubectl exec -it testpod -- sh
-
-kubectl logs -f --timestamps -n default falco-
-
-kubectl delete pod <pod-name> -n <namespace> --grace-period=0 --force
-
-helm repo add falcosecurity https://falcosecurity.github.io/charts
-
-helm repo update
-
-helm install falco falcosecurity/falco -n default
-
 minikube start
 minikube stop
 minikube delete
 minikube delete --purge --all
 
-kubectl exec -it <FALCO_POD_NAME> -n <NAMESPACE> -- cat /etc/falco/falco.yaml
+helm repo add falcosecurity https://falcosecurity.github.io/charts
+helm repo update
+helm install falco falcosecurity/falco -n default
+helm upgrade --install falco falcosecurity/falco \
+  -n default -f falco-rules/falco-conf.yaml -f falco-rules/custom-rules.yaml
 
-helm upgrade falco falcosecurity/falco -n default --set falco.file_output.enabled=true --set falco.file_output.filename="./events.txt" --set falco.file_output.keep_alive=false
-# keep_alive "false" permits real time update but the file is opened and closed every time
-# IDK why logs in "kubectl logs" are not real time
+kubectl exec -it -n default $(kubectl get pod -n default -l app.kubernetes.io/name=falco -o jsonpath="{.items[0].metadata.name}") -- tail -f /var/log/falco.log
 
-kubectl exec -it falco-qw42b -n default -- touch ./events.txt
-kubectl exec -it falco-swmzq -n default -- tail -f ./events.txt
-
-
-wget https://busybox.net/downloads/binaries/1.21.1/busybox-i686
-chmod +x busybox-i686
-./busybox-i686 echo "BOOM — upper layer binary executed"
+kubectl logs deployment/handler
+kubectl get deployments --show-labels
 
 
-https://falco.org/docs/concepts/outputs/channels/
+cd handler
 
-https://falco.org/docs/reference/rules/default-rules/
+eval $(minikube docker-env)
+docker build -t handler:latest .
 
-https://falco.org/docs/reference/rules/examples/
+cd zipapp
+
+eval $(minikube docker-env)
+docker build -t zipapp:latest .
+
+eval $(minikube docker-env)
+docker build -t zipapp:secure -f Dockerfile.sec .
+
+kubectl apply -f manifests/
+
+
+minikube service zipapp --url
+minikube service zipapp-sec -n secured --url

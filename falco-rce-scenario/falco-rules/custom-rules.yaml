@@ -1,0 +1,21 @@
+customRules:
+    handler-rules.yaml: |-
+      - list: trusted_images
+        items: [handler]
+      
+      - rule: Contact K8S API Server From Container
+        desc: >
+          Detect outbound connections to the Kubernetes API server,
+          excluding trusted images like the handler.
+        condition: >
+          evt.type=connect and fd.sip in (127.0.0.1) and
+          not container.image.repository in (trusted_images) and
+          fd.sip != 127.0.0.1 and container.name != "host"
+        output: >
+          Unexpected connection to K8s API Server from container (connection=%fd.name
+          user=%user.name command=%proc.cmdline container=%container.name
+          image=%container.image.repository)
+        priority: NOTICE
+        tags: [network, mitre_discovery, container, k8s]
+        source: syscall
+        enabled: true

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: handler
+  labels:
+    app: handler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: handler
+  template:
+    metadata:
+      labels:
+        app: handler
+    spec:
+      serviceAccountName: handler
+      containers:
+        - name: handler
+          image: handler:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000

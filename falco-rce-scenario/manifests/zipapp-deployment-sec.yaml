@@ -1,7 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: zipapp
+  name: zipapp-sec
+  namespace: secured
 spec:
   replicas: 1
   selector:
@@ -12,13 +13,18 @@ spec:
       labels:
         app: zipapp
     spec:
+      securityContext:
+        runAsUser: 1001
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: zipapp
-        image: zipapp:latest
+        image: docker.io/library/zipapp:secure
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 4000
         securityContext:
-            privileged: true
-            capabilities:
-              add: ["SYS_ADMIN"]
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: ["ALL"]

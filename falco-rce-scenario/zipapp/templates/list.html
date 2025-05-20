@@ -6,7 +6,7 @@
     <div class="column is-one-quarter ">
         <div class=" container">
             <form method="POST" enctype="multipart/form-data">
-                <div class="field is-grouped">
+                <div class="field">
 
                     <div class="control">
                         <div class="file">
@@ -37,6 +37,8 @@
 
                         {% endwith %}
                     </div>
+                </div>
+                <div class="field">
                     <div class="control">
                         <button type="submit" class="button is-link">Upload</button>
                     </div>
@@ -76,7 +78,7 @@
             <tfoot>
                 <tr>
                     <td>
-                        <a href="{{ url_for('zip',uid=uid) }}" class="button is-info">Download all</a>
+                        <a href="{{ url_for('zip',uid=uid) }}" class="button is-success">Download all</a>
                     </td>
                     <td></td>
                 </tr>
