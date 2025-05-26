@@ -1,0 +1,12 @@
+spec:
+  template:
+    spec:
+      containers:
+      - name: tracee
+        args:
+        - --config
+        - /tracee/config.yaml
+        - --output
+        - webhook:http://tracee-handler:80
+        - --output
+        - json:stdout

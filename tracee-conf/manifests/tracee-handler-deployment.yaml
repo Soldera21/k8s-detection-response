@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tracee-handler
+  labels:
+    app: tracee-handler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tracee-handler
+  template:
+    metadata:
+      labels:
+        app: tracee-handler
+    spec:
+      serviceAccountName: tracee-handler
+      containers:
+        - name: tracee-handler
+          image: tracee-handler:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000

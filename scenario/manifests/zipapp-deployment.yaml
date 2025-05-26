@@ -19,6 +19,9 @@ spec:
         ports:
         - containerPort: 4000
         securityContext:
-            privileged: true
-            capabilities:
-              add: ["SYS_ADMIN"]
+          privileged: true
+          capabilities:
+            add: ["SYS_ADMIN"]
+
+# RIMOZIONE AUTOMATICA VARI ROLE SERIVCE ECC
+# SCRIPT ESECUZIONE AUTOMATICA E README

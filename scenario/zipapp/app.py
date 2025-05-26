@@ -13,7 +13,7 @@ app.config['USERPATH'] = os.environ.get('USERPATH', '/tmp')
 app.config['APP_SECRET'] = os.environ.get('SECRET', secrets.token_hex(10))
 app.secret_key = app.config['APP_SECRET']
 app.config['MAX_UNCOMPRESSED_SIZE'] = os.environ.get(
-    'MAX_UNCOMPRESSED_SIZE', 4096)
+    'MAX_UNCOMPRESSED_SIZE', 32768)
 
 
 class FileTooBigException(Exception):
@@ -96,7 +96,7 @@ def upload(uid):
     except IsADirectoryError:
         abort(400)
 
-    # Calc length: we don't want any files larger than 4kb
+    # Calc length: we don't want any files larger than 32kb
     try:
         # unzip -Zt return a string similar to: 4 files, 49 bytes uncompressed, 44 bytes compressed:  10.2%
         # a quick and dirty way to parse this is to split the string, with ' ' as delimiter,
@@ -187,7 +187,7 @@ def zip(uid):
                        shell=False, cwd=path, timeout=5)
     try:
         resp = make_response(
-            send_file(new_zip_path, as_attachment=True, attachment_filename=new_zip_name))
+            send_file(new_zip_path, as_attachment=True, download_name=new_zip_name))
         resp.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
         return resp
     except:

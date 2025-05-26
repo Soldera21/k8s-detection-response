@@ -26,7 +26,7 @@ def webhook():
                  "-o", "jsonpath={.metadata.ownerReferences[0].name}"],
                 stdout=subprocess.PIPE, check=True, text=True
             )
-            deployment = result.stdout.strip().split("-")[0]
+            deployment = result.stdout.strip()[:-11]
             app.logger.info(f"[*] Result: {result}")
             app.logger.info(f"[*] Deployment: {deployment}")
             if deployment:
@@ -37,10 +37,10 @@ def webhook():
                 app.logger.info(f"[+] Labeled deployment {deployment} in {namespace}")
 
                 # SCALE REPLICAS TO 0 OR DO WHATEVER ACTION YOU WANT
-                subprocess.run([
-                    "kubectl", "scale", "deployment", deployment, "--replicas=0", "-n", namespace
-                ], check=True)
-                app.logger.info(f"[+] Action on deployment {deployment} in {namespace}")
+                #subprocess.run([
+                #    "kubectl", "scale", "deployment", deployment, "--replicas=0", "-n", namespace
+                #], check=True)
+                #app.logger.info(f"[+] Action on deployment {deployment} in {namespace}")
                 
         except subprocess.CalledProcessError as e:
             app.logger.error(f"[-] Error labeling deployment: {e}")

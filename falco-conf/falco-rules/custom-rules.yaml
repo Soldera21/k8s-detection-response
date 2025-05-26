@@ -1,7 +1,7 @@
 customRules:
     handler-rules.yaml: |-
       - list: trusted_images
-        items: [handler]
+        items: [falco-handler, tracee-handler]
       
       - rule: Contact K8S API Server From Container
         desc: >
