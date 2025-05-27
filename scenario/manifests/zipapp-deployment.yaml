@@ -22,6 +22,3 @@ spec:
           privileged: true
           capabilities:
             add: ["SYS_ADMIN"]
-
-# RIMOZIONE AUTOMATICA VARI ROLE SERIVCE ECC
-# SCRIPT ESECUZIONE AUTOMATICA E README

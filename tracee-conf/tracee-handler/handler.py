@@ -11,13 +11,13 @@ def webhook():
     data = request.get_json()
     pod = None
     namespace = None
-    current_namespace = 'default'
+    default_namespace = 'default'
 
     hostname = data.get("hostName", "")
     app.logger.info(f"[*] Extracted hostname: {hostname}")
 
     if hostname:
-        # Extract the pod name from hostname (remove random suffix)
+        # Extract the pod name from hostname
         pod_match = re.match(r"([a-z0-9-]+)-[a-z0-9]+$", hostname)
         if pod_match:
             pod_prefix = pod_match.group(1)
@@ -26,15 +26,13 @@ def webhook():
             # If we have a pod prefix, try to get the full pod name and namespace
             if pod_prefix:
                 try:
-                    # First try with all-namespaces (requires cluster permissions)
+                    # First try with all-namespaces
                     try:
                         result = subprocess.run(["kubectl", "get", "pods", "--all-namespaces", "-o", "json"], stdout=subprocess.PIPE, check=True, text=True)
                         pods_json = json.loads(result.stdout)
-                        app.logger.info("[*] Successfully queried pods across all namespaces")
                     except subprocess.CalledProcessError:
-                        # Fall back to current namespace only if cluster-wide search fails
-                        app.logger.info(f"[*] Falling back to searching only in namespace: {current_namespace}")
-                        result = subprocess.run(["kubectl", "get", "pods", "-n", current_namespace, "-o", "json"], stdout=subprocess.PIPE, check=True, text=True)
+                        # Fall back to default namespace only if cluster-wide search fails
+                        result = subprocess.run(["kubectl", "get", "pods", "-n", default_namespace, "-o", "json"], stdout=subprocess.PIPE, check=True, text=True)
                         pods_json = json.loads(result.stdout)
                     
                     # Find pods with names starting with our prefix
@@ -47,11 +45,9 @@ def webhook():
                             break
                     
                     if not pod or not namespace:
-                        app.logger.warning(f"[!] No pods found starting with prefix '{pod_prefix}-'")
                         # As a last resort, try using the hostname directly as the pod name
                         try:
-                            app.logger.info(f"[*] Trying with exact hostname: {hostname}")
-                            result = subprocess.run(["kubectl", "get", "pod", hostname, "-n", current_namespace, "-o", "json"], stdout=subprocess.PIPE, check=True, text=True)
+                            result = subprocess.run(["kubectl", "get", "pod", hostname, "-n", default_namespace, "-o", "json"], stdout=subprocess.PIPE, check=True, text=True)
                             pod_json = json.loads(result.stdout)
                             pod = pod_json.get("metadata", {}).get("name", "")
                             namespace = pod_json.get("metadata", {}).get("namespace", "")

@@ -10,6 +10,7 @@ def webhook():
     pod = data.get("output_fields", {}).get("k8s.pod.name")
     namespace = data.get("output_fields", {}).get("k8s.ns.name")
     
+    # Extract pod and namespace from container name if not found
     if not pod or not namespace:
         container_full_name = str(data.get("output_fields", {}).get("container.name") or "")
         match = re.match(r"k8s_([^_]+)_([^_]+)_([^_]+)_", container_full_name)
