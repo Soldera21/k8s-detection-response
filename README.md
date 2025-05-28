@@ -1,9 +1,9 @@
 # K8s Attack Detection and Countermeasures
 **Network & Cloud Security Project**
-Politecnico di Torino
-Soldera Marco (s338823) - Stella Francesca (s343411)
 
----
+Politecnico di Torino
+
+Soldera Marco (s338823) - Stella Francesca (s343411)
 
 ## Introduction
 The main goal of this project is to explore detection mechanisms in K8s environment like Falco and Tracee. Then we tried to manage alerts from this tools. We simulated three types of attacks are launched and then the respective countermeasures are proposed. Countermeasures are presented singularly but they can be combined to protect from all the presented attacks at the same time.
@@ -35,6 +35,8 @@ Now it is running in the cluster. We installed it in the ```default``` namespace
 ```
 bash falco-conf/falco-logs.sh
 ```
+
+If logs gives an error, just wait some seconds. If the log file is not found it is because there are no logs yet.
 
 Finally we can uninstall it using:
 
@@ -183,7 +185,7 @@ bash scenario/zipapp-psa-remove.sh
 ---
 
 ## Attacks
-Here we present the three attacks that we prepared to show how ```seccomp``` and PSA works in a K8s cluster.
+Here we present the three attacks that we prepared to show how ```seccomp``` and PSA work in a K8s cluster. After uploading the zip payload if any file starting with ```._``` is found in the web interface listing all the unzipped files, delete them.
 
 ### Dropped Binary
 In this attack we are uploading the payload ```binary_download.zip```. Here we are exploting the vulnerability in the zip command that with files ```-T``` and ```-TT```, takes them as flags executing what is sent after (other files with the same name as a bash command). The attack is triggered pressing "Download All" after having uploaded the zip file. In the uploaded script we are installing ```wget```, downloading and executing an example binary called ```busybox```. This can be blocked using the PSA scenario.
@@ -217,7 +219,7 @@ After the attack is executed successfully the handler adds a label to the deploy
 kubectl get deployments -n <namespace-name> --show-labels
 ```
 
-If the action used in the handlers is to scale down to 0 replicas the affected deployments, we can verify there are no more pods of that deployment with:
+If the action used in the handlers is to scale down to 0 replicas (check for this in the ```handler.py``` of the detection tool used if it is commented or not) the affected deployments, we can verify there are no more pods of that deployment with:
 
 ```
 kubectl get pods -n <namespace-name>
@@ -267,7 +269,7 @@ After the attack is executed successfully the handler adds a label to the deploy
 kubectl get deployments -n <namespace-name> --show-labels
 ```
 
-If the action used in the handlers is to scale down to 0 replicas the affected deployments, we can verify there are no more pods of that deployment with:
+If the action used in the handlers is to scale down to 0 replicas (check for this in the ```handler.py``` of the detection tool used if it is commented or not) the affected deployments, we can verify there are no more pods of that deployment with:
 
 ```
 kubectl get pods -n <namespace-name>
@@ -285,7 +287,7 @@ After rescaling (likely because the problem have been solved) we can remove the 
 kubectl label deployment <deployment-name> -n <namespace-name> <label-key>-
 ```
 
-### Revserse Shell
+### Reverse Shell
 In this attack we are uploading the payload ```reverse_shell.zip```. Here we are exploting the vulnerability in the zip command that with files ```-T``` and ```-TT```, takes them as flags executing what is sent after (other files with the same name as a bash command). The attack is triggered pressing "Download All" after having uploaded the zip file. Here we are uploading a script that is executing a reverse shell to the given server. This can be blocked using the seccomp revshell scenario.
 Before uploading the payload we need to prepare the script. First we run ```ngrok``` to redirect traffic to our machine with:
 
@@ -331,7 +333,7 @@ After the attack is executed successfully the handler adds a label to the deploy
 kubectl get deployments -n <namespace-name> --show-labels
 ```
 
-If the action used in the handlers is to scale down to 0 replicas the affected deployments, we can verify there are no more pods of that deployment with:
+If the action used in the handlers is to scale down to 0 replicas (check for this in the ```handler.py``` of the detection tool used if it is commented or not) the affected deployments, we can verify there are no more pods of that deployment with:
 
 ```
 kubectl get pods -n <namespace-name>

@@ -1,5 +1,5 @@
 #!/bin/bash
 
-kubectl delete deployment zipapp -n default
-kubectl delete service zipapp -n default
+kubectl delete deployment zipapp-sec -n secured
+kubectl delete service zipapp-sec -n secured
 kubectl delete namespace secured
