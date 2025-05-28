@@ -1,8 +1,6 @@
 # K8s Attack Detection and Countermeasures
-**Network & Cloud Security Project**
-
-Politecnico di Torino
-
+**Network & Cloud Security Project**\
+Politecnico di Torino\
 Soldera Marco (s338823) - Stella Francesca (s343411)
 
 ## Introduction
