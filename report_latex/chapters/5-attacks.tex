@@ -30,7 +30,6 @@ wget https://busybox.net/downloads/binaries/1.21.1/busybox-i686
 chmod +x busybox-i686
 ./busybox-i686 echo "BOOM — upper layer binary executed"
 \end{verbatim}
-%spiegare l'utilizzo di wget
 Once the folder is uploaded and extracted, its structure allows for the execution of the \texttt{evil} script. The \texttt{wget} command is used to download the external binary.
 
 
@@ -76,7 +75,6 @@ Both tools provide valuable information regarding the triggered event.
 
 
 \subsection{Reverse shell}
-%ultimo paragrafo readme, ci sono due comandi da far eseguire prima dell'evil
 
 A reverse shell is a technique that allows an attacker to access a remote computer by initiating a shell session from the target system, bypassing firewall restrictions.
 The reverse shell attack was executed using the same procedure described in the previous section for command injection with the only difference being the content of the \texttt{evil} script, which was modified to include the necessary commands for simulating a reverse shell.
@@ -141,13 +139,10 @@ MITRE ATT&CK:
   - Signature Name: Process standard input/output over socket detected
   - Severity:    High (3/5)
 \end{verbatim}
-%non so cosa sia stderr e stdin
 Tracee identified the redirection of standard I/O over a network socket and reported a remote connection to an IP address on a specific port. This malicious behavior was classified as high severity.
 
 
 \subsection{\texttt{ptrace} system call}
-% bisogna allegare un altro eseguibile ptrace che viene lanciato che contiene system call a ptrace
-% simulare attacco come antidebugging
 The \texttt{ptrace} system call is commonly used for debugging or, in this case, as an anti-debugging technique which is used to detect and block debugging and analysis tools. A process can call \texttt{ptrace} in order to prevent other debuggers from attaching to it later. The following is the content of the \texttt{evil} script used in this scenario:
 \begin{verbatim}
 #!/bin/bash

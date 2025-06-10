@@ -10,7 +10,6 @@ Kubernetes \cite{kubernetes} is nowadays a de-facto standard for container orche
 Since Falco and Tracee are only capable of logging what is happening, we need some preventive security mechanisms like \ac{psa} and Seccomp to apply countermeasures. These are built-in tools in Kubernetes. \Ac{psa} provide control on container startup, ensuring certain security characteristics of the starting pods. It can evaluate the profile and setup of an entering pod to ensure it complies with some constraints. Seccomp controls system calls during execution, permitting or denying a set of them based on the profile assigned to the deployment.
 
 The \textbf{goals} of this project are:
-% controllare
 \begin{itemize}[itemsep=0.1pt, topsep=0pt]
     \item showing in action Falco and Tracee detecting possible attacks;
     \item developing tools to collect detection events for a possible automatic response;
