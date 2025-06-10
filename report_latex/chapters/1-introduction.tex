@@ -1,0 +1,20 @@
+\section{Introduction}
+\label{sec:intro}
+
+According to Eurostat in \cite{eurostat}, "42.5\% of EU enterprises bought cloud computing services in 2023, mostly for e-mail, storage of files and office software" and "75.3\% of those enterprises purchased sophisticated cloud services relating to security software applications, hosting enterprise’s databases or computing platform for application development, testing or deployment". These statistics are still growing nowadays. Cloud computing has changed the way organizations deploy and scale applications because of its flexibility, cost-efficiency and on demand-resources. This makes cloud computing a good choice for both startups and large enterprises.
+
+One of the most important enablers for cloud computing is the lightweight virtualization. In particular containers share the same kernel of the host operating system, leading to faster startup, lower overhead and improved efficiency. These characteristics align with the modern development practices using cloud-native applications composed of microservices.
+
+Kubernetes \cite{kubernetes} is nowadays a de-facto standard for container orchestration. It is very powerful in abstracting the management of containerized applications across clusters to automate deployment, scaling and networking. One of the problems emerging is that all this complexity introduces new security challenges. The use of runtime security tools can address this challenge to detect real-time attacks, notify what happened and potentially trigger an automatic or human response. In particular we focused on two open-source tools named Falco and Tracee. They can inspect system calls to determine if an attack is occurring based on an integrated set of rules or some custom ones. In particular Tracee is designed to inspect also processes based on signatures and behavioral models.
+
+Since Falco and Tracee are only capable of logging what is happening, we need some preventive security mechanisms like \ac{psa} and Seccomp to apply countermeasures. These are built-in tools in Kubernetes. \Ac{psa} provide control on container startup, ensuring certain security characteristics of the starting pods. It can evaluate the profile and setup of an entering pod to ensure it complies with some constraints. Seccomp controls system calls during execution, permitting or denying a set of them based on the profile assigned to the deployment.
+
+The \textbf{goals} of this project are:
+% controllare
+\begin{itemize}[itemsep=0.1pt, topsep=0pt]
+    \item showing in action Falco and Tracee detecting possible attacks;
+    \item developing tools to collect detection events for a possible automatic response;
+    \item applying countermeasures using PSA and Seccomp;
+    \item provide a test scenario that is vulnerable to command injection to test tools and countermeasures with a set of attacks; it contains a specific vulnerability in the \texttt{zip} command that is executed by a Python server.
+\end{itemize}
+

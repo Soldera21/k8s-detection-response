@@ -1,0 +1,60 @@
+% FALCO BINARY DOWNLOAD
+{"hostname":"minikube","output":"08:44:05.522989177: Critical Executing binary not part of base image (proc_exe=./busybox-i686 proc_sname=python3 gparent=sh proc_exe_ino_ctime=1748421845500256345 proc_exe_ino_mtime=1373335365000000000 proc_exe_ino_ctime_duration_proc_start=21696232 proc_cwd=/tmp/2d59ed5f6d796e23f73d443b0623144aa33b9174/ container_start_ts=1748421109372605077 evt_type=execve user=root user_uid=0 user_loginuid=-1 process=busybox-i686 proc_exepath=/tmp/2d59ed5f6d796e23f73d443b0623144aa33b9174/busybox-i686 parent=bash command=busybox-i686 echo BOOM — upper layer binary executed terminal=0 exe_flags=EXE_WRITABLE|EXE_UPPER_LAYER container_id=cb7b73084f99 container_image=zipapp container_image_tag=latest container_name=k8s_zipapp_zipapp-5485c4dc48-cv67x_default_9305548e-a115-4db7-80b6-5419ade24ff0_0 k8s_ns=<NA> k8s_pod_name=<NA>)","output_fields":{"container.id":"cb7b73084f99","container.image.repository":"zipapp","container.image.tag":"latest","container.name":"k8s_zipapp_zipapp-5485c4dc48-cv67x_default_9305548e-a115-4db7-80b6-5419ade24ff0_0","container.start_ts":1748421109372605077,"evt.arg.flags":"EXE_WRITABLE|EXE_UPPER_LAYER","evt.time":1748421845522989177,"evt.type":"execve","k8s.ns.name":null,"k8s.pod.name":null,"proc.aname[2]":"sh","proc.cmdline":"busybox-i686 echo BOOM — upper layer binary executed","proc.cwd":"/tmp/2d59ed5f6d796e23f73d443b0623144aa33b9174/","proc.exe":"./busybox-i686","proc.exe_ino.ctime":1748421845500256345,"proc.exe_ino.ctime_duration_proc_start":21696232,"proc.exe_ino.mtime":1373335365000000000,"proc.exepath":"/tmp/2d59ed5f6d796e23f73d443b0623144aa33b9174/busybox-i686","proc.name":"busybox-i686","proc.pname":"bash","proc.sname":"python3","proc.tty":0,"user.loginuid":-1,"user.name":"root","user.uid":0},"priority":"Critical","rule":"Drop and execute new binary in container","source":"syscall","tags":["PCI_DSS_11.5.1","TA0003","container","maturity_stable","mitre_persistence","process"],"time":"2025-05-28T08:44:05.522989177Z"}
+
+% FALCO PTRACE
+{"hostname":"minikube","output":"08:45:14.162771320: Notice Detected potential PTRACE_TRACEME anti-debug attempt (proc_pcmdline=bash evil /tmp/2d59ed5f6d796e23f73d443b0623144aa33b9174/zi0r7Tx0 evt_type=ptrace user=root user_uid=0 user_loginuid=-1 process=ptrace proc_exepath=/tmp/2d59ed5f6d796e23f73d443b0623144aa33b9174/ptrace parent=bash command=ptrace terminal=0 container_id=cb7b73084f99 container_image=zipapp container_image_tag=latest container_name=k8s_zipapp_zipapp-5485c4dc48-cv67x_default_9305548e-a115-4db7-80b6-5419ade24ff0_0 k8s_ns=<NA> k8s_pod_name=<NA>)","output_fields":{"container.id":"cb7b73084f99","container.image.repository":"zipapp","container.image.tag":"latest","container.name":"k8s_zipapp_zipapp-5485c4dc48-cv67x_default_9305548e-a115-4db7-80b6-5419ade24ff0_0","evt.time":1748421914162771320,"evt.type":"ptrace","k8s.ns.name":null,"k8s.pod.name":null,"proc.cmdline":"ptrace","proc.exepath":"/tmp/2d59ed5f6d796e23f73d443b0623144aa33b9174/ptrace","proc.name":"ptrace","proc.pcmdline":"bash evil /tmp/2d59ed5f6d796e23f73d443b0623144aa33b9174/zi0r7Tx0","proc.pname":"bash","proc.tty":0,"user.loginuid":-1,"user.name":"root","user.uid":0},"priority":"Notice","rule":"PTRACE anti-debug attempt","source":"syscall","tags":["T1622","container","host","maturity_stable","mitre_defense_evasion","process"],"time":"2025-05-28T08:45:14.162771320Z"}
+
+% FALCO REVSHELL
+{"hostname":"minikube","output":"08:49:05.463393946: Notice Redirect stdout/stdin to network connection (gparent=sh ggparent=zip gggparent=python3 fd.sip=18.158.58.205 connection=10.244.1.93:52966->18.158.58.205:19023 lport=19023 rport=52966 fd_type=ipv4 fd_proto=tcp evt_type=dup2 user=root user_uid=0 user_loginuid=-1 process=bash proc_exepath=/bin/bash parent=bash command=bash evil /tmp/2d59ed5f6d796e23f73d443b0623144aa33b9174/zi0OIqMT terminal=0 container_id=cb7b73084f99 container_image=zipapp container_image_tag=latest container_name=k8s_zipapp_zipapp-5485c4dc48-cv67x_default_9305548e-a115-4db7-80b6-5419ade24ff0_0 k8s_ns=<NA> k8s_pod_name=<NA>)","output_fields":{"container.id":"cb7b73084f99","container.image.repository":"zipapp","container.image.tag":"latest","container.name":"k8s_zipapp_zipapp-5485c4dc48-cv67x_default_9305548e-a115-4db7-80b6-5419ade24ff0_0","evt.time":1748422145463393946,"evt.type":"dup2","fd.l4proto":"tcp","fd.lport":19023,"fd.name":"10.244.1.93:52966->18.158.58.205:19023","fd.rport":52966,"fd.sip":"18.158.58.205","fd.type":"ipv4","k8s.ns.name":null,"k8s.pod.name":null,"proc.aname[2]":"sh","proc.aname[3]":"zip","proc.aname[4]":"python3","proc.cmdline":"bash evil /tmp/2d59ed5f6d796e23f73d443b0623144aa33b9174/zi0OIqMT","proc.exepath":"/bin/bash","proc.name":"bash","proc.pname":"bash","proc.tty":0,"user.loginuid":-1,"user.name":"root","user.uid":0},"priority":"Notice","rule":"Redirect STDOUT/STDIN to Network Connection in Container","source":"syscall","tags":["T1059","container","maturity_stable","mitre_execution","network","process"],"time":"2025-05-28T08:49:05.463393946Z"}
+
+% FALCO HANDLER LOGS
+deployment.apps/zipapp labeled
+[2025-05-28 08:43:44,445] INFO in handler: [+] Labeled deployment zipapp in default
+
+% TRACEE BINARY DOWNLOAD
+{"timestamp":1748422630492717997,"threadStartTime":1748422612778067832,"processorId":0,"processId":335,"cgroupId":6470,"threadId":335,"parentProcessId":42,"hostProcessId":20831,"hostThreadId":20831,"hostParentProcessId":20487,"userId":0,"mountNamespace":4026533593,"pidNamespace":4026533595,"processName":"wget","executable":{"path":""},"hostName":"zipapp-5879f489","containerId":"3386deda87643e6b27858025736011899bb1420b420b93387cd808042c16e884","container":{"id":"3386deda87643e6b27858025736011899bb1420b420b93387cd808042c16e884"},"kubernetes":{},"eventId":"6029","eventName":"dropped_executable","matchedPolicies":["default-policy"],"argsNum":2,"returnValue":139,"syscall":"write","stackAddresses":null,"contextFlags":{"containerStarted":true,"isCompat":false},"threadEntityId":947964452,"processEntityId":947964452,"parentEntityId":2297726604,"args":[{"name":"path","type":"const char *","value":"/tmp/568e2245203779c6ed687e3238bd3d8ad8f7293a/busybox-i686"},{"name":"triggeredBy","type":"unknown","value":{"args":[{"name":"pathname","type":"const char*","value":"/tmp/568e2245203779c6ed687e3238bd3d8ad8f7293a/busybox-i686"},{"name":"bytes","type":"bytes","value":"f0VMRgEBAQAAAAAAAAAAAAIAAwABAAAAjIoECDQAAAA="},{"name":"dev","type":"dev_t","value":227},{"name":"inode","type":"unsigned long","value":71707}],"id":727,"name":"magic_write","returnValue":139}}],"metadata":{"Version":"1","Description":"An Executable file was dropped in the system during runtime. Container images are usually built with all binaries needed inside. A dropped binary may indicate that an adversary infiltrated your container.","Tags":null,"Properties":{"Category":"defense-evasion","Kubernetes_Technique":"","Severity":2,"Technique":"Masquerading","external_id":"T1036","id":"attack-pattern--42e8de7b-37b2-4258-905a-6897815e58e0","signatureID":"TRC-1022","signatureName":"New executable dropped"}}}
+
+% TRACEE PTRACE
+{"timestamp":1748422660102356725,"threadStartTime":1748422660099072057,"processorId":6,"processId":382,"cgroupId":6470,"threadId":382,"parentProcessId":381,"hostProcessId":21151,"hostThreadId":21151,"hostParentProcessId":21150,"userId":0,"mountNamespace":4026533593,"pidNamespace":4026533595,"processName":"ptrace","executable":{"path":""},"hostName":"zipapp-5879f489","containerId":"3386deda87643e6b27858025736011899bb1420b420b93387cd808042c16e884","container":{"id":"3386deda87643e6b27858025736011899bb1420b420b93387cd808042c16e884"},"kubernetes":{},"eventId":"6018","eventName":"anti_debugging","matchedPolicies":["default-policy"],"argsNum":1,"returnValue":0,"syscall":"ptrace","stackAddresses":null,"contextFlags":{"containerStarted":true,"isCompat":false},"threadEntityId":598315107,"processEntityId":598315107,"parentEntityId":2427787203,"args":[{"name":"triggeredBy","type":"unknown","value":{"args":[{"name":"request","type":"long","value":0},{"name":"pid","type":"pid_t","value":0},{"name":"addr","type":"void*","value":0},{"name":"data","type":"void*","value":0}],"id":101,"name":"ptrace","returnValue":0}}],"metadata":{"Version":"1","Description":"A process used anti-debugging techniques to block a debugger. Malware use anti-debugging to stay invisible and inhibit analysis of their behavior.","Tags":null,"Properties":{"Category":"defense-evasion","Kubernetes_Technique":"","Severity":1,"Technique":"Debugger Evasion","external_id":"T1622","id":"attack-pattern--e4dc8c01-417f-458d-9ee0-bb0617c1b391","signatureID":"TRC-102","signatureName":"Anti-Debugging detected"}}}
+
+% TRACEE REVSHELL
+{"timestamp":1748422408882744815,"threadStartTime":1748422408750822251,"processorId":7,"processId":452,"cgroupId":5416,"threadId":452,"parentProcessId":451,"hostProcessId":19043,"hostThreadId":19043,"hostParentProcessId":19042,"userId":0,"mountNamespace":4026533738,"pidNamespace":4026533740,"processName":"bash","executable":{"path":""},"hostName":"zipapp-5485c4dc","containerId":"","container":{},"kubernetes":{},"eventId":"6000","eventName":"stdio_over_socket","matchedPolicies":["default-policy"],"argsNum":4,"returnValue":0,"syscall":"dup","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":3639026672,"processEntityId":3639026672,"parentEntityId":117037510,"args":[{"name":"Port","type":"const char *","value":"19023"},{"name":"File descriptor","type":"int","value":0},{"name":"IP address","type":"const char *","value":"3.67.161.133"},{"name":"triggeredBy","type":"unknown","value":{"args":[{"name":"oldfd","type":"int","value":2},{"name":"newfd","type":"int","value":0},{"name":"remote_addr","type":"struct sockaddr*","value":{"sa_family":"AF_INET","sin_addr":"3.67.161.133","sin_port":"19023"}}],"id":749,"name":"socket_dup","returnValue":0}}],"metadata":{"Version":"2","Description":"A process has its standard input/output redirected to a socket. This behavior is the base of a Reverse Shell attack, which is when an interactive shell being invoked from a target machine back to the attacker's machine, giving it interactive control over the target. Adversaries may use a Reverse Shell to retain control over a compromised target while bypassing security measures like network firewalls.","Tags":null,"Properties":{"Category":"execution","Kubernetes_Technique":"","Severity":3,"Technique":"Unix Shell","external_id":"T1059.004","id":"attack-pattern--a9d4b653-6915-42af-98b2-5758c4ceee56","signatureID":"TRC-101","signatureName":"Process standard input/output over socket detected"}}}
+
+% TRACEE HANDLER LOGS
+deployment.apps/zipapp labeled
+[2025-05-28 08:53:28,742] INFO in handler: [+] Labeled deployment zipapp in default
+
+
+
+
+
+{
+  "output": "Falco Alert: Write below binary dir (user=root command=sh 
+  file=/usr/bin/malicious.sh)",
+  "priority": "Warning",
+  "rule": "Write below binary dir",
+  "time": "2025-05-19T14:32:15.123456789Z",
+  "container_id": "abc123",
+  "container_name": "vulnerable-container",
+  "k8s.ns.name": "default",
+  "k8s.pod.name": "vulnerable-app",
+  "k8s.pod.uid": "1234-5678-90ab-cdef",
+  "proc.name": "sh",
+  "user.name": "root",
+  "evt.type": "open",
+  "fd.name": "/usr/bin/malicious.sh"
+}
+
+{
+  "timestamp": 1683132012000000000,
+  "eventName": "execve",
+  "processName": "bash",
+  "pid": 4721,
+  "ppid": 4632,
+  "uid": 0,
+  "gid": 0,
+  "arguments": {
+    "pathname": "/bin/bash",
+    "argv": ["bash", "-c", "whoami"]
+  }
+}

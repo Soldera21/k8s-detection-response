@@ -1,0 +1,174 @@
+\documentclass[11pt]{article}
+
+% ==========================
+% ESSENTIAL PACKAGES
+% ==========================
+\usepackage[utf8]{inputenc}  % Character encoding
+\usepackage[T1]{fontenc}     % Font encoding
+\usepackage[english]{babel}  % Document language
+\usepackage{csquotes}        % Support for quotations
+
+% ==========================
+% FORMATTING & STRUCTURE PACKAGES
+% ==========================
+\usepackage[dvipsnames]{xcolor} % Advanced colors
+\usepackage{graphicx}           % Image handling
+\usepackage{subcaption}         % Subcaptions for images
+\usepackage{fancyhdr}           % Custom headers & footers
+\usepackage{vmargin}            % Custom margins
+\usepackage{hyperref}           % Clickable links
+\usepackage{booktabs}           % Professional tables
+\usepackage{amsmath}            % Math symbols & equations
+\usepackage{wrapfig}            % Wrapping text around figures
+\usepackage{soul}               % Underlining and highlighting
+\usepackage{float}              % Better float positioning
+\usepackage{tcolorbox}          % Colored boxes for highlights
+\usepackage{verbatim}           % Multi-line comments
+\usepackage{cclicenses}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{url}
+\usepackage[acronym,shortcuts]{glossaries}
+\usepackage{enumitem}
+
+\newcommand{\sectionbreak}{\clearpage}
+\titleformat{\section}[block]{\huge\bfseries}{\thesection.}{1em}{}
+\setlength{\parskip}{0.7em}
+\setlist{itemsep=0.2em, topsep=0.2em}
+
+% ==========================
+% BIBLIOGRAPHY CONFIGURATION
+% ==========================
+\usepackage{biblatex}  % Bibliography management
+\addbibresource{biblio.bib}  % Reference to the .bib file
+
+% ==========================
+% TABLE OF CONTENTS & SECTION DEPTH
+% ==========================
+\setcounter{tocdepth}{5}  % Depth of table of contents
+\setcounter{secnumdepth}{2}  % Depth of numbered sections
+
+% ==========================
+% MARGINS CONFIGURATION
+% ==========================
+\setmarginsrb{2.5cm}{2.5cm}{2.5cm}{2.5cm}{1cm}{1.5cm}{1cm}{1.5cm}
+\graphicspath{{./images/}}
+
+% ==========================
+% TITLE PAGE CONFIGURATION
+% ==========================
+\newcommand{\ctitle}{Kubernetes Security: Runtime Threat Detection}
+\title{\ctitle}
+
+%Emulation of the NXP S32K3X8EVB in QEMU and Porting of FreeRTOS%
+%TITOLO SOSTITUTIVO%
+
+\author{} % Left empty as authors will be manually added below
+\date{June 20, 2025}
+
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date
+\makeatother
+
+% ==========================
+% PDF METADATA & FOOTER CONFIGURATION
+% ==========================
+\hypersetup{
+    pdftitle={\thetitle},
+    pdfsubject={},
+    pdfkeywords={},
+    hidelinks
+}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[L]{\ccnc CC BY-NC 4.0 | Politecnico di Torino - 2024/2025}
+\fancyfoot[R]{\thepage} 
+\fancyhead[L]{\ctitle}
+
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \fancyfoot[L]{\ccnc CC BY-NC 4.0 | Politecnico di Torino - 2024/2025}
+    \fancyfoot[R]{\thepage} 
+    \fancyhead[L]{\ctitle}
+}
+
+\input{glossary}
+
+\begin{document}
+
+% ==========================
+% TITLE PAGE
+% ==========================
+\begin{titlepage}
+    \centering
+    \includegraphics[scale=0.4]{logoPoli.png}\\[1.0 cm]
+    \textsc{\LARGE POLITECNICO DI TORINO}\\[0.2 cm]
+    \textsc{\large Master’s Degree in Cybersecurity}\\[4 cm]
+    {\huge \bfseries \ctitle}\\[0.2 cm]
+    \rule{0.6\linewidth}{0.25 mm}\\[0.3 cm]
+    \textsc{\Large NCS Project Report}\\[0.7 cm]
+
+    \vspace{3cm} % Space before authors section
+
+    \begin{flushleft} \large
+        \textbf{Authors:}\\[0.1cm]
+        Soldera Marco - s338823\\[0.1cm]
+        Stella Francesca - s343411
+    \end{flushleft}
+
+    \vfill
+\end{titlepage}
+
+{\centering \Huge \textbf{License} \par}
+\vspace{1cm} % Adds space between title and text
+\noindent This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License. \newline
+\url{http://creativecommons.org/licenses/by-nc/4.0/}
+\pagebreak
+
+% ==========================
+% ABSTRACT
+% ==========================
+%\include{chapters/abstract}
+%\addcontentsline{toc}{section}{Abstract}
+%\pagebreak
+
+% ==========================
+% TABLE OF CONTENTS
+% ==========================
+\include{ext_sections/preliminary}
+\include{ext_sections/contributors}
+\tableofcontents
+\pagebreak
+
+% ==========================
+% CHAPTERS
+% ==========================
+\include{chapters/1-introduction}
+\include{chapters/2-tools}
+\include{chapters/3-installation}
+\include{chapters/4-mechanisms}
+\include{chapters/5-attacks}
+\include{chapters/6-countermeasures}
+\include{chapters/7-conclusion}
+
+% ==========================
+% ACRONYMS
+% ==========================
+\printglossary[type=\acronymtype]
+
+% ==========================
+% BIBLIOGRAPHY
+% ==========================
+\printbibliography  % Prints the bibliography
+\addcontentsline{toc}{section}{References}
+\pagebreak
+
+% ==========================
+% APPENDIX
+% ==========================
+%\appendix
+%\include{chapters/appendix}
+
+\end{document}

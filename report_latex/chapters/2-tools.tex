@@ -1,0 +1,34 @@
+\section{Tools Description and Comparison}
+\label{sec:tools}
+
+In this section, we describe the two tools we used to detect the attacks in our cluster. Both tools are open-source projects to monitor Linux systems (containers, Kubernetes clusters). They can identify suspicious, abnormal or unauthorized behaviors with deep visibility into kernel-level events occurring during container execution with a set of customizable security rules.
+
+To do this they leverage \ac{ebpf} and system call tracing. In particular \ac{ebpf} is a technology built into the Linux kernel. It permits to run programs in the kernel securely without modifying or loading additional kernel modules. It is used in networking, observability and security (like in our case). Falco and Tracee use \ac{ebpf} probes (specific programs compiled for \ac{ebpf} and ran when events like system calls occur) to inspect if something suspicious is happening inside the kernel. These probes are high performance programs that avoid slowing down the system and run securely.
+
+
+\subsection{Falco}
+Falco is the first run-time tool we tested with the set of attacks we developed, which are listed later. It was originally developed by Sysdig and now maintained by the \ac{cncf}; in its early versions it was using a legacy kernel module instead of \ac{ebpf}. This is still now supported to be compatible also with older versions of the Linux kernel. The \ac{ebpf} approach enhances also the compatibility with container orchestrators and reduces performance overhead. In general it collects system calls from Linux kernel for a rule engine that detects suspicious behaviors with its set of rules. This enables detection of anomalies, intrusions, and misconfigurations. Its main application is in Kubernetes environments, inspecting containers within the cluster.
+
+The default set of rules (listed and specified in \cite{falcoRules}) included in Falco can detect events like a spawned shell, redirection of stdin/stdout, access to the K8s API, usage of ptrace and many others. Rules can trigger a CRITICAL, WARNING, NOTICE or INFO event. The default set is classified as stable, but it can be expanded with other pre-made ones that are in "sandbox" or "incubating" state. Finally there are also some deprecated rules.
+
+Combining all these mechanisms, Falco enables real-time threat detection without disruption. It is deployed in Kubernetes using a Daemonset. It can forward alerts in a large variety of ways from logging files to webhooks or also with a Slack message.
+
+
+\subsection{Tracee}
+Tracee is an open source runtime security and forensic tool developed by Aqua Security. This tool is natively based on \ac{ebpf} probes. It can be a standalone binary or installed in a Kubernetes cluster as a DaemonSet as we did in this project. This last modality is the main reason why this program has been created, to help detection of possible threats in the cluster. As Falco does, Tracee can analyze behavior of containers and hosts to log suspicious activity with minimal overhead.
+
+In addition to \ac{ebpf}, Tracee can use tracepoints and Linux Security Modules hooks to monitor process creation, file access, network connections and privilege changes.
+
+Once events are captured, Tracee uses an engine written in Go to interpret data. Detection can be based on signatures, Rego policies and custom Go plugins. This enables flexible rule definition based on the single situation that we are facing. Tracee also includes container-aware context enrichment, making it ideal for Kubernetes environments where workload context is essential for threat detection. The list of default Tracee events can be found at \cite{traceeRules}.
+
+The lightweight nature of Tracee, makes it suitable for CI/CD pipelines, container runtime monitoring and post-incident forensics. By combining \ac{ebpf} telemetry with detection logic, Tracee offers a robust platform for securing Linux systems at runtime.
+
+
+% mi da 100% AI ma l'ho scritto a mano!!! RIP
+\subsection{Comparison between Falco and Tracee}
+Both Falco and Tracee are open-source and based on \ac{ebpf} to detect events within the cluster. They have a predefined set of rules that is included in the software while other competing software don't. They both are designed for real-time threat detection in Linux systems.
+
+Although they seem very similar for some aspects and purposes, they have also many differences. Falco adopts a rule-based approach focused on ease of use and integration. Rules can be created in YAML and they are easy to be loaded in the software. There is also the option to use an old version based on kernel modules. It is often integrated in a Kubernetes cluster using a DaemonSet and can be extended with Falco Sidekick that implements a complete notification system. Falco is event-driven and primarily used for real-time threat detection and alerting. In contrast, Tracee was designed from the beginning using \ac{ebpf} providing a developer-oriented security framework. The rules for the detection engine can be in Rego, Go plugins and signature-based. In Tracee there are also Linux Security Modules and context enrichment.
+
+Each tool has its advantages and disadvantages, and the best choice depends on the specific use case and security requirements. Falco is a mature project and generally easier to use thanks to its YAML rule syntax. Tracee, on the other hand, is newer, enables deeper threat and forensic analysis and integration in security pipelines, but it is more complex due to its rule definition.
+

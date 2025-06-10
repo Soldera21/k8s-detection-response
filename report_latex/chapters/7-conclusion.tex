@@ -1,0 +1,11 @@
+\section{Conclusions}
+\label{sec:concl}
+
+In conclusion, setting up runtime security in Kubernetes with Falco and Tracee proved to be effective. We used these tools in a local Minikube Kubernetes setup, showing that they can detect malicious behavior, such as command injection attempts, reverse shells and unexpected binary runs, using eBPF-based methods. Both the tools showed strong capabilities in detecting malicious behaviors. Using both tools together enables a better understanding of the runtime security analysis because in their rules they have a very different classification of the events. For example the Dropped Executable has a Critical level in Falco and Medium in Tracee. On the contrary, the Reverse Shell has a Notice level in Falco and High in Tracee.
+
+Then, we implemented a custom event handler, which can extract the pod name and namespace from Falco and Tracee logs. This fact proves that it is possible to set up automated security responses, like tagging and restarting compromised pods, and connect runtime alerts with larger security measures in a cloud-native environment. All the three attacks that we simulated have been detected and managed as expected from Falco, Tracee and their respective handlers.
+
+Additionally, we also set up security measures, like Seccomp and \acrlong{psa}. In particular talking about Seccomp we tried the default profile with no particular policies and a custom one locking some syscalls that are specifically linked to some kind of attacks and actions that are not usual in the normal behavior of our application. This effectively mitigated the attacks. Also for \ac{psa} we obtained good results because the new Restricted namespace forced us to create a pod that was designed to force the security by design principle, setting it as non-privileged, non-root and so on. The combination of these tools enable a proactive approach to block misconfigured workloads.
+
+Overall, this work shows that using Falco and Tracee together with Kubernetes feauters like Seccomp and PSA gives a strong way to discover, investigate and stop security issues in containerized environments. Based on the usage we can also choose between a tool more oriented to monitoring like Falco, or another one that is suitable for forensic analysis like Tracee.
+
